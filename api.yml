@@ -1,0 +1,172 @@
+openapi: 3.0.0
+info:
+  title: User Decision-Making API
+  version: 1.0.0
+
+paths:
+  /user/:
+    post:
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - gender
+                - age_range
+                - education_level
+                - job_title
+                - specialty
+                - data_handling_frequency
+                - activity_type
+                - data_analysis_tools
+                - expertise_level
+              properties:
+                gender:
+                  type: string
+                  enum: [Male, Female, Other, Prefer not to say]
+                age_range:
+                  type: string
+                  enum: ["<25", "25-39", "40-54", "55-69", ">70"]
+                education_level:
+                  type: string
+                  enum:
+                    - High School Diploma or equivalent (e.g., CAP, Baccalaureate)
+                    - Associate Degree or equivalent (e.g., DEUG, BTS, DUT)
+                    - Bachelor's Degree or equivalent (e.g., Licence)
+                    - Master's Degree or equivalent
+                    - Doctorate or equivalent
+                job_title:
+                  type: string
+                specialty:
+                  type: string
+                data_handling_frequency:
+                  type: string
+                  enum: [Never, Rarely, Sometimes, Often, Daily]
+                activity_type:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - Operational Research
+                      - Decision Support
+                      - Modeling
+                      - Simulation
+                      - Optimization
+                      - Visualization/Dashboards
+                      - None of these
+                      - Other (please specify)
+                data_analysis_tools:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - Tables/Spreadsheets
+                      - Scatter Plots
+                      - Heatmaps
+                      - Parallel Coordinate Plots
+                      - Other Graphical Representations (Pie Chart, Radar Chart, Bar Chart)
+                      - Dedicated Tools
+                      - None of these
+                      - Other (please specify)
+                expertise_level:
+                  type: string
+                  enum: [Beginner, Intermediate, Expert]
+      responses:
+        '200':
+          description: User created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+
+  /data/{data-id}:
+    get:
+      summary: Retrieve data by ID
+      parameters:
+        - name: data-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Data response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data_id:
+                    type: string
+                  length:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: number
+                        y:
+                          type: number
+
+  /quizz/{user-id}:
+    get:
+      summary: Get next quiz choice
+      parameters:
+        - name: user-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Quiz choice
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order: 
+                    type: string
+                    enum:
+                      - Max-Max
+                      - Max-Min
+                      - Min-Max
+                      - Min-Min
+                  c1:
+                    type: string
+                  c2:
+                    type: string
+    post:
+      summary: Submit a quiz choice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - c1
+                - c2
+                - preference
+              properties:
+                user_id:
+                  type: string
+                c1:
+                  type: string
+                c2:
+                  type: string
+                preference:
+                  type: string
+                  enum: [c1, c2, none]
+      responses:
+        '200':
+          description: Quiz choice saved
