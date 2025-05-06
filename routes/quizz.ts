@@ -1,17 +1,38 @@
 import { Router, Context } from "jsr:@oak/oak";
+import { ConfigurationManager, OrderKey } from "../configuration.ts";
 
 export const router = new Router();
+const configurationManager = new ConfigurationManager();
 
 router.get("/quizz/:userId", (ctx: Context) => {
   const userId = ctx.params.userId;
+
   console.log("User ID:", userId);
-  // TODO: Fetch next quiz options and order for user
+  if (!userId) {
+    ctx.response.status = 400;
+    ctx.response.body = { message: "User ID is required" };
+    return;
+  }
+  const user = ctx.app.users.getUser(userId);
+  if (!user) {
+    ctx.response.status = 404;
+    ctx.response.body = { message: "User not found" };
+    return;
+  }
+  const seed = user.seed;
+  const configurations = configurationManager.nextConfiguration(
+    seed,
+    OrderKey.max_max,
+    []
+  );
+  console.log("Configurations:", configurations);
+  user.seed = seed;
   ctx.response.status = 200;
   ctx.response.body = {
-    order: "Max-Max", // Example
-    c1: "data-id-1",
-    c2: "data-id-2",
+    user_id: userId,
+    configurations: configurations,
   };
+  ctx.response.type = "application/json";
 });
 
 // POST /quizz
