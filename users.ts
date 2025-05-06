@@ -75,6 +75,7 @@ export class User {
   data_analysis_tools: DataAnalysisTool[];
   expertise_level: ExpertiseLevel;
   created_at: Date;
+  answers: string[];
 
   constructor(user_id: string, formData: FormData) {
     this.user_id = user_id;
@@ -88,6 +89,7 @@ export class User {
     }
 
     this.created_at = new Date();
+    this.answers = [];
   }
 }
 
