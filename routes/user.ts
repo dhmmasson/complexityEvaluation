@@ -2,11 +2,11 @@ import { Router, Context } from "jsr:@oak/oak";
 import { Users } from "../users.ts";
 
 export const router = new Router();
-const userModels = new Users();
 
 // POST /user/
 router.post("/user", async (ctx: Context) => {
   const body = ctx.request.body;
+  const userModels = ctx.app.users; // Access the users from the app context
   console.log("Received body:", body.type());
 
   // handle application/x-www-form-urlencoded

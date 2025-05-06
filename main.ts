@@ -32,6 +32,7 @@ router.get("/openapi.yaml", async (ctx: Context) => {
 });
 
 const app = new Application();
+app.users = userModels; // Make users available in the app context
 app.use(router.routes(), router.allowedMethods());
 app.use(staticServe);
 
