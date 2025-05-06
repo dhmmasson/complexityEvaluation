@@ -1,6 +1,6 @@
 import { join } from "jsr:@std/path";
 
-const DATA_FOLDER = "./data";
+const DATA_FOLDER = "./user_data";
 export enum Gender {
   male = "male",
   female = "female",
