@@ -1,5 +1,9 @@
 project:
   type: website
+  preview: 
+    watch-inputs: true
+    browser: false
+
 
 website:
   title: "ComplexityEvaluation"
