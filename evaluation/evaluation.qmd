@@ -1,9 +1,13 @@
 ---
+title: "Evaluation"
+format: 
+  dashboard
+
 filters:
   - jlgraves-ubc/forms
 form:
   action: /api/v1/quizz
-  submit: Submit Now!
+  submit: Vote!
   method: POST
   fields:
     - name: preference
@@ -17,24 +21,146 @@ form:
           value: B
         - text: I cannot choose 
           value: None
+
 ---
+##  Row {height=70%}
+```{ojs}
+// | code-fold: true
+// | echo: false
+// | padding: 0 
 
-# Evaluation of Complexity
+Plot.plot( 
+  {
+    marks: [
+      Plot.dot(
+       data ,
+        { x: "x"
+        , y: "y"
+        , fill: "steelblue" }
 
+      ),
+      Plot.gridX( {interval: 2.5} ),
+      Plot.gridY( {interval: 2.5} ),
+      Plot.axisX( [-100], {tickSize: 0
+                      , label: "Best" 
+                      , labelAnchor:  xAxis ? "right": "left"
+                      , labelArrow: xAxis ? "right": "left"
+                      , labelOffset: 10
+                      , domain: [-10, 10]
+      } ),
+      Plot.axisY( [-100], {tickSize: 0
+                      , label: "Best" 
+                      , labelAnchor: yAxis ?  "top" : "bottom" 
+                      , labelArrow: yAxis ?  "up":"down"
+                      , labelOffset: 10
+      } ),
+     
+    ],
+    caption: "Scenario A",
+    aspectRatio: 1,
+    width: 400,   
+    height: 400,       
+    x: { label: "Best" 
+        , axis: null
+        , domain: [-10, 10] },
+    y: { label: "Best"
+        , axis: null
+        , domain: [-10, 10] },
+  }
+)
+
+
+
+
+```
+
+```{ojs}
+// | code-fold: true
+// | echo: false
+Plot.plot( 
+  {
+    marks: [
+      Plot.dot(
+       data ,
+        { x: "x"
+        , y: "y"
+        , fill: "steelblue" }
+
+      ),
+      Plot.gridX( {interval: 2.5} ),
+      Plot.gridY( {interval: 2.5} ),
+      Plot.axisX( [-100], {tickSize: 0
+                      , label: "Best" 
+                      , labelAnchor:  xAxis ? "right": "left"
+                      , labelArrow: xAxis ? "right": "left"
+                      , labelOffset: 10
+                      , domain: [-10, 10]
+      } ),
+      Plot.axisY( [-100], {tickSize: 0
+                      , label: "Best" 
+                      , labelAnchor: yAxis ?  "top" : "bottom" 
+                      , labelArrow: yAxis ?  "up":"down"
+                      , labelOffset: 10
+      } ),
+     
+    ],
+    caption: "Scenario B",
+    aspectRatio: 1,
+    width: 400, 
+    height: 400,     
+    x: { label: "Best" 
+        , axis: null
+        , domain: [-10, 10] },
+    y: { label: "Best"
+        , axis: null
+        , domain: [-10, 10] },
+  }
+)
+```
+
+## Submit your choice
 {{< form >}}
 
-```{ojs}
-data = d3.csv( '/api/v1/data/' +configuration.configurations.shapeKeys[0])
-Inputs.table( data )
-```
-
-```{ojs}
-configuration = d3.json('/api/v1/quizz/' + user_id)
-configuration
-```
 
 
 ```{ojs}
 user_id = window.location.href.split('/').pop();
+quizz = d3.json('/api/v1/quizz/' + user_id);
+configuration = quizz.configurations ; 
+data = d3.csv( '/api/v1/data/' +configuration.shapeKeys[0])
+xAxis =configuration.orders[0]
+yAxis =configuration.orders[1]
+
+
+a = {
+  const form = document.querySelector("form");
+         // add hidden input with user_id
+  const user_id = window.location.href.split('/').pop();
+  let input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "user_id";
+  input.value = user_id;
+  form.appendChild(input);
+  
+  input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "seed";
+  input.value = configuration.seed;
+  form.appendChild(input);
+
+  input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "orderKey";
+  input.value = configuration.orderKey;
+  form.appendChild(input);
+
+  input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "startTime";
+  input.value = new Date().toISOString();
+  form.appendChild(input);
+}
+
+configuration
 ```
 
