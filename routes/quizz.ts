@@ -36,11 +36,55 @@ router.get("/quizz/:userId", (ctx: Context) => {
 });
 
 // POST /quizz
-router.post("/quizz/:userId", async (ctx: Context) => {
-  const body = ctx.request.body({ type: "json" });
-  const quizData = await body.value;
+router.post("/quizz", async (ctx: Context) => {
+  const body = ctx.request.body;
 
-  // TODO: Validate and store quizData (user_id, c1, c2, preference)
-  ctx.response.status = 200;
-  ctx.response.body = { message: "Quiz choice saved" };
+  if (body.type() === "form") {
+    console.log("Form data:", body);
+    const formData = await body.formData();
+    const userId = formData.get("user_id");
+
+    const user = ctx.app.users.getUser(userId);
+    if (!user) {
+      ctx.response.status = 404;
+      ctx.response.body = { message: "User not found" };
+      return;
+    }
+    const seed = formData.get("seed");
+    const orderKey = formData.get("orderKey");
+    const preference = formData.get("preference");
+    if (!seed || !orderKey || !preference) {
+      ctx.response.status = 400;
+      ctx.response.body = { message: "Seed and OrderKey are required" };
+      return;
+    }
+    const configuration = configurationManager.getConfigurationFromSeed(
+      +seed || 0,
+      orderKey as OrderKey
+    );
+    configurationManager.countConfiguration(configuration);
+    configurationManager.savePreferences(
+      userId as string,
+      configuration,
+      preference as string
+    );
+    user.answers.push({
+      seed: +seed,
+      orderKey: orderKey,
+      preference: preference,
+      startTime: new Date().toISOString(),
+    });
+
+    if (user.answer >= 40) {
+      ctx.response.redirect("/thankyou");
+      ctx.response.status = 302;
+      return;
+    }
+
+    // Redirect to /evaluation
+    ctx.response.redirect("/evaluation/" + userId);
+    ctx.response.status = 302;
+  }
+
+  // redirect to the quizz page
 });
