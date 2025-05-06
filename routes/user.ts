@@ -6,15 +6,12 @@ export const router = new Router();
 router.post("/user", async (ctx: Context) => {
   const body = ctx.request.body;
   const userModels = ctx.app.users; // Access the users from the app context
-  console.log("Received body:", body.type());
 
   // handle application/x-www-form-urlencoded
   if (body.type() === "form") {
     const formData = await body.formData();
-    console.log("Form data:", formData);
     const user = userModels.createUser(formData);
     userModels.save();
-    console.log("User object:", user);
     // Redirect to /evaluation
     ctx.response.redirect("/evaluation/" + user.user_id);
     ctx.response.status = 302;

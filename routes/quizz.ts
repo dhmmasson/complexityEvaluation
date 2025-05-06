@@ -25,7 +25,7 @@ router.get("/quizz/:userId", (ctx: Context) => {
     OrderKey.max_max,
     []
   );
-  console.log("Configurations:", configurations);
+
   user.seed = seed;
   ctx.response.status = 200;
   ctx.response.body = {
@@ -40,7 +40,6 @@ router.post("/quizz", async (ctx: Context) => {
   const body = ctx.request.body;
 
   if (body.type() === "form") {
-    console.log("Form data:", body);
     const formData = await body.formData();
     const userId = formData.get("user_id");
 
