@@ -285,4 +285,26 @@ export class ConfigurationManager {
       configuration.shapeKeys[1]
     ]++;
   }
+
+  async savePreferences(
+    userId: string,
+    configuration: Configuration,
+    preference: string
+  ) {
+    const line = `${userId},\
+    ${configuration.seed},\
+    ${configuration.orderKey},\
+    ${prettyPrintShapeKey(configuration.shapeKeys[0])},\
+    ${prettyPrintShapeKey(configuration.shapeKeys[1])},\
+    ${preference}`;
+
+    await Deno.writeFile(
+      "preferences.csv",
+      new TextEncoder().encode(line + "\n"),
+      {
+        append: true,
+        create: true,
+      }
+    );
+  }
 }
