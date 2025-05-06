@@ -24,6 +24,11 @@ form:
 {{< form >}}
 
 ```{ojs}
+data = d3.csv( '/api/v1/data/' +configuration.configurations.shapeKeys[0])
+Inputs.table( data )
+```
+
+```{ojs}
 configuration = d3.json('/api/v1/quizz/' + user_id)
 configuration
 ```
