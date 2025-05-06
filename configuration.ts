@@ -4,10 +4,10 @@ export enum Order {
 }
 
 export enum OrderKey {
-  max_max = 0,
-  max_min = 1,
-  min_max = 2,
-  min_min = 3,
+  max_max = "max_max",
+  max_min = "max_min",
+  min_max = "min_max",
+  min_min = "min_min",
 }
 
 function getOrderKey(order: Order, order2: Order) {
@@ -194,7 +194,7 @@ type Configuration = {
   shapes: ShapeType[];
   lengths: Length[];
   orders: Order[];
-  orderkey: OrderKey;
+  orderKey: OrderKey;
   shapeKeys: ShapeKey[];
 };
 
@@ -270,14 +270,14 @@ export class ConfigurationManager {
       shapes: shapeIndices.map((seed) => getShapeType(seed)),
       lengths: shapeIndices.map((seed) => getLength(seed)),
       orders: getOrders(orderKey),
-      orderkey: orderKey,
+      orderKey: orderKey,
       shapeKeys: shapeIndices,
     };
     return configuration;
   }
 
-  contConfiguration(configuration: Configuration) {
-    const configurationMatrix = this.configurations.get(configuration.orderkey);
+  countConfiguration(configuration: Configuration) {
+    const configurationMatrix = this.configurations.get(configuration.orderKey);
     if (!configurationMatrix) {
       throw new Error("Invalid configuration");
     }
