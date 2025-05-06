@@ -33,7 +33,7 @@ Plot.plot(
   {
     marks: [
       Plot.dot(
-       data ,
+       data1 ,
         { x: "x"
         , y: "y"
         , fill: "steelblue" }
@@ -81,7 +81,7 @@ Plot.plot(
   {
     marks: [
       Plot.dot(
-       data ,
+       data2 ,
         { x: "x"
         , y: "y"
         , fill: "steelblue" }
@@ -127,7 +127,9 @@ Plot.plot(
 user_id = window.location.href.split('/').pop();
 quizz = d3.json('/api/v1/quizz/' + user_id);
 configuration = quizz.configurations ; 
-data = d3.csv( '/api/v1/data/' +configuration.shapeKeys[0])
+data1 = d3.csv( '/api/v1/data/' +configuration.shapeKeys[0])
+data2 = d3.csv( '/api/v1/data/' +configuration.shapeKeys[1])
+
 xAxis =configuration.orders[0]
 yAxis =configuration.orders[1]
 
