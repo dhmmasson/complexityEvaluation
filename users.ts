@@ -1,5 +1,5 @@
 import { join } from "jsr:@std/path";
-import { json } from "node:stream/consumers";
+
 const DATA_FOLDER = "./data";
 export enum Gender {
   male = "male",
@@ -64,6 +64,7 @@ export enum ExpertiseLevel {
 
 export class User {
   user_id: string;
+  seed: number;
   gender: Gender;
   age_range: AgeRange;
   education_level: EducationLevel;
@@ -77,6 +78,7 @@ export class User {
 
   constructor(user_id: string, formData: FormData) {
     this.user_id = user_id;
+    this.seed = Math.random();
     for (const [key, value] of formData.entries()) {
       if (key in this) {
         (this as any)[key] = value;
@@ -128,10 +130,26 @@ export class Users {
       .catch((err) => console.error("Error saving data:", err));
   }
 
-  load() {
-    Deno.readTextFile(
-      join(DATA_FOLDER, `users_${this.date.toISOString()}.json`)
-    )
+  async load() {
+    // read the Data folder get the latest file
+    const files = [];
+    for await (const dirEntry of Deno.readDir(DATA_FOLDER)) {
+      if (!dirEntry.isFile) continue;
+      const name = dirEntry.name;
+      const date = new Date(name.split("_")[1].split(".")[0]);
+      files.push({ name, date });
+    }
+    const latestFile = [...files]
+
+      .filter((file) => file.name.startsWith("users_"))
+      .sort((a, b) => b.date.getTime() - a.date.getTime())[0].name;
+
+    if (!latestFile) {
+      console.log("No data file found");
+      return;
+    }
+
+    Deno.readTextFile(join(DATA_FOLDER, latestFile))
       .then((data) => {
         this.users = JSON.parse(data);
         console.log("Data loaded successfully");

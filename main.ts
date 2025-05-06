@@ -10,7 +10,7 @@ const OPENAPI_PATH = "./api.yml";
 
 //Statically serve what is in _site
 const userModels = new Users();
-
+userModels.load();
 //Server from api/v1
 export const router = new Router({
   prefix: "/api/v1",

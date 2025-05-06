@@ -1,5 +1,4 @@
 import { Router, Context } from "jsr:@oak/oak";
-import { Users } from "../users.ts";
 
 export const router = new Router();
 
