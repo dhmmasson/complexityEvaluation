@@ -44,8 +44,8 @@ Deno.test(
       );
       previousConfigurations.push(configuration1);
       previousConfigurations2.push(configuration2);
-      seed1 = configuration1.seed;
-      seed2 = configuration2.seed;
+      // seed1 = configuration1.seed;
+      // seed2 = configuration2.seed;
     }
     console.table(configurationManager.configurations.get(orderKey));
   }

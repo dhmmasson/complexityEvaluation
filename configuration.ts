@@ -272,9 +272,6 @@ export class ConfigurationManager {
       orderkey: orderKey,
       shapeKeys: nextSeeds,
     };
-    configurationMatrix[configuration.shapeKeys[0]][
-      configuration.shapeKeys[1]
-    ]++;
     return configuration;
   }
 
