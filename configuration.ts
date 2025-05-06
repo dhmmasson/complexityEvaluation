@@ -148,7 +148,7 @@ function getLength(shapeKey: ShapeKey): Length {
   throw new Error("Invalid shape key");
 }
 
-function prettyPrintShapeKey(shapeKey: ShapeKey): string {
+export function prettyPrintShapeKey(shapeKey: ShapeKey): string {
   switch (shapeKey) {
     case ShapeKey.linear_short:
       return "Ls";
