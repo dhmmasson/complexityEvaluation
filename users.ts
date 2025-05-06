@@ -139,8 +139,11 @@ export class Users {
       const date = new Date(name.split("_")[1].split(".")[0]);
       files.push({ name, date });
     }
+    if (files.length === 0) {
+      console.log("No data files found");
+      return;
+    }
     const latestFile = [...files]
-
       .filter((file) => file.name.startsWith("users_"))
       .sort((a, b) => b.date.getTime() - a.date.getTime())[0].name;
 
