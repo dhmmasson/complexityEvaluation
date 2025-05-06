@@ -1,5 +1,5 @@
-import { Application, Router, Context } from "https://deno.land/x/oak/mod.ts";
-import { join } from "https://deno.land/std/path/mod.ts";
+import { Application, Router, Context } from "jsr:@oak/oak";
+import { join } from "jsr:@std/path";
 
 const OPENAPI_PATH = "./api.yml";
 
