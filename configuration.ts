@@ -221,8 +221,12 @@ function createConfigurationMatrices() {
   return a;
 }
 
+function seedToShapeIndices(seed: number): [number, number] {
+  return [Math.floor(seed * 18), Math.floor((seed * 18 * 18) % 18)];
+}
+
 export class ConfigurationManager {
-  configurations;
+  configurations: Map<OrderKey, number[][]>;
   constructor() {
     this.configurations = new Map<OrderKey, number[][]>();
     this.configurations.set(OrderKey.max_max, createConfigurationMatrices());
@@ -248,29 +252,26 @@ export class ConfigurationManager {
         }
       }
     }
-    const nextSeeds = [0, 0];
+    let shapeIndices = [0, 0];
     do {
-      const nextSeed = (seed + Math.PI) % 1; // Pi
-      nextSeeds[0] = Math.floor(nextSeed * 18);
-      nextSeeds[1] = Math.floor((nextSeed * 18 * 18) % 18);
-      seed = nextSeed;
+      seed = (seed + Math.PI) % 1; // Pi
+      shapeIndices = seedToShapeIndices(seed);
     } while (
-      nextSeeds[0] === nextSeeds[1] ||
-      configurationMatrix[nextSeeds[0]][nextSeeds[1]] > min
+      shapeIndices[0] === shapeIndices[1] ||
+      configurationMatrix[shapeIndices[0]][shapeIndices[1]] > min
     );
+    return this.getConfigurationFromSeed(seed, orderKey);
+  }
 
-    console.log("Next seed", nextSeeds);
-    console.log(
-      "Next seeds",
-      nextSeeds.map((seed) => prettyPrintShapeKey(seed))
-    );
+  getConfigurationFromSeed(seed: number, orderKey: OrderKey): Configuration {
+    const shapeIndices = seedToShapeIndices(seed);
     const configuration: Configuration = {
       seed: seed,
-      shapes: nextSeeds.map((seed) => getShapeType(seed)),
-      lengths: nextSeeds.map((seed) => getLength(seed)),
+      shapes: shapeIndices.map((seed) => getShapeType(seed)),
+      lengths: shapeIndices.map((seed) => getLength(seed)),
       orders: getOrders(orderKey),
       orderkey: orderKey,
-      shapeKeys: nextSeeds,
+      shapeKeys: shapeIndices,
     };
     return configuration;
   }

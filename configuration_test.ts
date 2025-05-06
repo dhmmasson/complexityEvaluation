@@ -15,6 +15,7 @@ Deno.test(
         previousConfigurations
       );
       previousConfigurations.push(configuration);
+      configurationManager.contConfiguration(configuration);
       seed = configuration.seed;
     }
     console.table(configurationManager.configurations.get(orderKey));
@@ -37,11 +38,13 @@ Deno.test(
         orderKey,
         previousConfigurations
       );
+      configurationManager.contConfiguration(configuration1);
       const configuration2 = configurationManager.nextConfiguration(
         seed2,
         orderKey,
         previousConfigurations2
       );
+      configurationManager.contConfiguration(configuration2);
       previousConfigurations.push(configuration1);
       previousConfigurations2.push(configuration2);
       // seed1 = configuration1.seed;
