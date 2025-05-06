@@ -1,64 +1,65 @@
 import { join } from "jsr:@std/path";
+import { json } from "node:stream/consumers";
 const DATA_FOLDER = "./data";
 export enum Gender {
-  male,
-  female,
-  other,
-  prefer_not_to_say,
+  male = "male",
+  female = "female",
+  other = "other",
+  prefer_not_to_say = "prefer_not_to_say",
 }
 
 export enum AgeRange {
-  under_25,
-  from_25_to_39,
-  from_40_to_54,
-  from_55_to_69,
-  over_70,
-  prefer_not_to_say,
+  under_25 = "under_25",
+  from_25_to_39 = "from_25_to_39",
+  from_40_to_54 = "from_40_to_54",
+  from_55_to_69 = "from_55_to_69",
+  over_70 = "over_70",
+  prefer_not_to_say = "prefer_not_to_say",
 }
 
 export enum EducationLevel {
-  high_school_diploma,
-  associate_degree,
-  bachelor_degree,
-  master_degree,
-  doctorate,
-  prefer_not_to_say,
+  high_school_diploma = "high_school_diploma",
+  associate_degree = "associate_degree",
+  bachelor_degree = "bachelor_degree",
+  master_degree = "master_degree",
+  doctorate = "doctorate",
+  prefer_not_to_say = "prefer_not_to_say",
 }
 
 export enum Frequency {
-  never,
-  rarely,
-  sometimes,
-  often,
-  daily,
+  never = "never",
+  rarely = "rarely",
+  sometimes = "sometimes",
+  often = "often",
+  daily = "daily",
 }
 
 export enum ActivityType {
-  operational_research,
-  decision_support,
-  modeling,
-  simulation,
-  optimization,
-  visualization_dashboards,
-  none_of_these,
-  other,
+  operational_research = "operational_research",
+  decision_support = "decision_support",
+  modeling = "modeling",
+  simulation = "simulation",
+  optimization = "optimization",
+  visualization_dashboards = "visualization_dashboards",
+  none_of_these = "none_of_these",
+  other = "other",
 }
 
 export enum DataAnalysisTool {
-  tables_spreadsheets,
-  scatter_plots,
-  heatmaps,
-  parallel_coordinate_plots,
-  other_graphical_representations,
-  dedicated_tools,
-  none_of_these,
-  other,
+  tables_spreadsheets = "tables_spreadsheets",
+  scatter_plots = "scatter_plots",
+  heatmaps = "heatmaps",
+  parallel_coordinate_plots = "parallel_coordinate_plots",
+  other_graphical_representations = "other_graphical_representations",
+  dedicated_tools = "dedicated_tools",
+  none_of_these = "none_of_these",
+  other = "other",
 }
 
 export enum ExpertiseLevel {
-  beginner,
-  intermediate,
-  expert,
+  beginner = "beginner",
+  intermediate = "intermediate",
+  expert = "expert",
 }
 
 export class User {
@@ -74,18 +75,16 @@ export class User {
   expertise_level: ExpertiseLevel;
   created_at: Date;
 
-  constructor(user_id: string, jsonData: any) {
+  constructor(user_id: string, formData: FormData) {
     this.user_id = user_id;
-    // jsonData is the user data from the request body that needs to be validated
-    this.gender = jsonData.gender;
-    this.age_range = jsonData.age_range;
-    this.education_level = jsonData.education_level;
-    this.job_title = jsonData.job_title;
-    this.specialty = jsonData.specialty;
-    this.data_handling_frequency = jsonData.data_handling_frequency;
-    this.activity_type = jsonData.activity_type;
-    this.data_analysis_tools = jsonData.data_analysis_tools;
-    this.expertise_level = jsonData.expertise_level;
+    for (const [key, value] of formData.entries()) {
+      if (key in this) {
+        (this as any)[key] = value;
+      } else {
+        console.warn(`Unexpected form field: ${key}`);
+      }
+    }
+
     this.created_at = new Date();
   }
 }
@@ -97,6 +96,13 @@ export class Users {
   constructor() {
     this.users = [];
     this.date = new Date();
+  }
+
+  createUser(formData: FormData): User {
+    const user_id = crypto.randomUUID();
+    const user = new User(user_id, formData);
+    this.users.push(user);
+    return user;
   }
 
   addUser(user: User) {

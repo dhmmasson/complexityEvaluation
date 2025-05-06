@@ -1,10 +1,13 @@
 import { stat } from "node:fs";
 import { Application, Router, Context } from "jsr:@oak/oak";
 import { join } from "jsr:@std/path";
+import { User, Users } from "./users.ts";
 
 const OPENAPI_PATH = "./api.yml";
 
 //Statically serve what is in _site
+const userModels = new Users();
+await userModels.load();
 
 //Server from api/v1
 const router = new Router({
@@ -14,8 +17,23 @@ const router = new Router({
 // POST /user/
 router.post("/user", async (ctx: Context) => {
   const body = ctx.request.body;
-  console.log("Received body:", await body.json());
-  const userData = await body.json();
+  console.log("Received body:", body.type());
+
+  // handle application/x-www-form-urlencoded
+  if (body.type() === "form") {
+    const formData = await body.formData();
+    console.log("Form data:", formData);
+    const user = userModels.createUser(formData);
+    userModels.save();
+    console.log("User object:", user);
+    ctx.response.status = 200;
+    ctx.response.body = { message: JSON.stringify(user) };
+    return;
+  } else {
+    ctx.response.body = { message: "Invalid content type" };
+    ctx.response.status = 400;
+    return;
+  }
 
   // TODO: Validate and save userData
   // TODO: Generate and return a user_id

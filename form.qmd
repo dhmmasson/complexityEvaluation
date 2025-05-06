@@ -1,0 +1,136 @@
+---
+filters:
+  - jlgraves-ubc/forms
+form:
+  action: /api/v1/user
+  submit: Submit Now!
+  method: POST
+  fields:
+    - name: gender
+      type: radio
+      id: gender
+      label: Gender
+      values:
+        - text: Male
+          value: male
+        - text: Female
+          value: female
+        - text: Other
+          value: other
+        - text: Prefer not to say
+          value: prefer_not_to_say
+    - name: age_range
+      type: radio
+      id: age_range
+      label: Age Range
+      values:
+        - text: Under 25
+          value: under_25
+        - text: 25 to 39
+          value: from_25_to_39
+        - text: 40 to 54
+          value: from_40_to_54
+        - text: 55 to 69
+          value: from_55_to_69
+        - text: Over 70
+          value: over_70
+        - text: Prefer not to say
+          value: prefer_not_to_say
+    - name: education_level
+      type: radio
+      id: education_level
+      label: Education Level
+      values:
+        - text: High School Diploma
+          value: high_school_diploma
+        - text: Associate Degree
+          value: associate_degree
+        - text: Bachelor's Degree
+          value: bachelor_degree
+        - text: Master's Degree
+          value: master_degree
+        - text: Doctorate
+          value: doctorate
+        - text: Prefer not to say
+          value: prefer_not_to_say
+    - name: job_title
+      type: text
+      id: job_title
+      label: Job Title
+      required: true
+    - name: specialty
+      type: text
+      id: specialty
+      label: Specialty
+    - name: data_handling_frequency
+      type: radio
+      id: data_handling_frequency
+      label: How often do you handle data?
+      values:
+        - text: Never
+          value: never
+        - text: Rarely
+          value: rarely
+        - text: Sometimes
+          value: sometimes
+        - text: Often
+          value: often
+        - text: Daily
+          value: daily
+    - name: activity_type
+      type: checkbox
+      id: activity_type
+      label: What types of activities do you engage in?
+      values:
+        - text: Operational Research
+          value: operational_research
+        - text: Decision Support
+          value: decision_support
+        - text: Modeling
+          value: modeling
+        - text: Simulation
+          value: simulation
+        - text: Optimization
+          value: optimization
+        - text: Visualization Dashboards
+          value: visualization_dashboards
+        - text: None of these
+          value: none_of_these
+        - text: Other
+          value: other
+    - name: data_analysis_tools
+      type: checkbox
+      id: data_analysis_tools
+      label: What data analysis tools do you use?
+      values:
+        - text: Tables/Spreadsheets
+          value: tables_spreadsheets
+        - text: Scatter Plots
+          value: scatter_plots
+        - text: Heatmaps
+          value: heatmaps
+        - text: Parallel Coordinate Plots
+          value: parallel_coordinate_plots
+        - text: Other Graphical Representations
+          value: other_graphical_representations
+        - text: Dedicated Tools
+          value: dedicated_tools
+        - text: None of these
+          value: none_of_these
+        - text: Other
+          value: other
+    - name: expertise_level
+      type: radio
+      id: expertise_level
+      label: Expertise Level
+      values:
+        - text: Beginner
+          value: beginner
+        - text: Intermediate
+          value: intermediate
+        - text: Expert
+          value: expert
+
+---
+
+{{< form >}}
