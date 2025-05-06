@@ -1,0 +1,35 @@
+---
+filters:
+  - jlgraves-ubc/forms
+form:
+  action: /api/v1/quizz
+  submit: Submit Now!
+  method: POST
+  fields:
+    - name: preference
+      type: radio
+      id: preference
+      label: Compare the two datasets and choose the one in which it seems easiest for you to identify the 'best' solution.  
+      values: 
+        - text: Scenario A
+          value: A
+        - text: Scenario B
+          value: B
+        - text: I cannot choose 
+          value: None
+---
+
+# Evaluation of Complexity
+
+{{< form >}}
+
+```{ojs}
+configuration = d3.json('/api/v1/quizz/' + user_id)
+configuration
+```
+
+
+```{ojs}
+user_id = window.location.href.split('/').pop();
+```
+
