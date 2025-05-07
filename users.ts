@@ -138,6 +138,7 @@ export class Users {
     for await (const dirEntry of Deno.readDir(DATA_FOLDER)) {
       if (!dirEntry.isFile) continue;
       const name = dirEntry.name;
+      if (!name.match(/^users_.*[.]json$/)) continue;
       const date = new Date(name.split("_")[1].split(".")[0]);
       files.push({ name, date });
     }

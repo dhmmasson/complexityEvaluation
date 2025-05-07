@@ -1,0 +1,19 @@
+---
+title: "Thank You"
+filters:
+  - jlgraves-ubc/forms
+form:
+  action: /api/v1/contact
+  submit: Get Informed
+  method: POST
+  fields:
+    - name: email
+      type: text
+      id: email
+      label: Email Address
+
+---
+Thank you for participating in this study! 
+If you would like to be informed about the results of this study or participate in another similar experiment, you can leave your email address below (optional): 
+
+{{< form >}}
