@@ -194,6 +194,7 @@ a = {
   input.name = "screenSize";
   input.id = "screenSize";
   input.value = window.screen.width + "x" + window.screen.height;
+  form.appendChild(input);
 }
 
 function* timeElapsed( startTime ) {
