@@ -20,9 +20,26 @@ router.get("/quizz/:userId", (ctx: Context) => {
     return;
   }
   const seed = user.seed;
+  let orderKey = OrderKey.max_max;
+  let stage = Math.floor(user.answers.length / 8) % 4;
+  switch (stage) {
+    case 0:
+      orderKey = OrderKey.max_max;
+      break;
+    case 1:
+      orderKey = OrderKey.max_min;
+      break;
+    case 2:
+      orderKey = OrderKey.min_max;
+      break;
+    case 3:
+      orderKey = OrderKey.min_min;
+      break;
+  }
+
   const configurations = configurationManager.nextConfiguration(
-    seed,
-    OrderKey.max_max,
+    seed * stage,
+    orderKey,
     []
   );
 
