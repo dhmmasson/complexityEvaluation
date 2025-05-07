@@ -1,9 +1,16 @@
 ---
-title: "ComplexityEvaluation"
+title: "Complexity Evaluation"
 ---
 
-This is a Quarto website.
+Welcome, and thank you for taking part in this study conducted by **ESTIA** as part of a research project in decision engineering. 
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+This study focuses on multi-criteria decision-making problems, and more specifically on bi-objective cases, where a choice must be made between several options by considering two criteria simultaneously (e.g., cost and performance). 
 
-[Form](form.qmd)
+Our goal is to better understand **how decision-makers perceive the complexity of these problems**. In other words, we aim to identify the factors that make a decision problem more or less complex, and to associate one or more measures of complexity with them. 
+
+There are no right or wrong answers — we are interested in your personal perception. 
+
+The questionnaire takes less than 10 minutes. 
+Thank you for your participation! 
+
+[Take the quiz!](GRPD.qmd){.btn .btn-outline-primary .btn role="button"} 
