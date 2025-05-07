@@ -1,0 +1,16 @@
+---
+title: "Data Collection Consent (GDPR)"
+---
+As part of this study conducted by ESTIA, we collect certain data for academic research purposes. 
+
+- Data collected: Questionnaire responses (anonymous or indirectly identifying with e-mail adress). 
+- Purpose: Used only for research analysis, not shared with third parties. 
+- Data retention: 2 years then anonymized. 
+- Your rights: You may request access, correction, or deletion of your data by contacting a.abiakle@estia.fr. 
+- Voluntary participation : You can leave the questionnaire at any time. 
+
+By continuing you agree to take part in this study. 
+
+[Continue](form.qmd){.btn .btn-outline-primary .btn role="button"} 
+
+ 
