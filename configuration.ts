@@ -301,7 +301,7 @@ export class ConfigurationManager {
     ${elapsedTime}`;
 
     await Deno.writeFile(
-      "preferences.csv",
+      "./user_data/preferences.csv",
       new TextEncoder().encode(line + "\n"),
       {
         append: true,
