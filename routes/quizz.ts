@@ -1,5 +1,9 @@
 import { Router, Context } from "jsr:@oak/oak";
-import { ConfigurationManager, OrderKey } from "../configuration.ts";
+import {
+  ConfigurationManager,
+  OrderKey,
+  prettyPrintShapeKey,
+} from "../configuration.ts";
 
 export const router = new Router();
 const configurationManager = new ConfigurationManager();
@@ -90,13 +94,14 @@ router.post("/quizz", async (ctx: Context) => {
     user.answers.push({
       seed: +seed,
       orderKey: orderKey,
+      A: prettyPrintShapeKey(configuration.shapeKeys[0]),
+      B: prettyPrintShapeKey(configuration.shapeKeys[1]),
       preference: preference,
       elapsedTime: elapsedTime,
       screenSize: screenSize,
     });
-
+    ctx.app.users.save();
     if (user.answers.length >= 40) {
-      ctx.app.users.save();
       ctx.response.redirect("/thankyou");
       ctx.response.status = 302;
       return;
