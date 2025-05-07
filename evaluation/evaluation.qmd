@@ -184,8 +184,8 @@ a = {
 
   input = document.createElement("input");
   input.type = "hidden";
-  input.name = "timeElapsed";
-  input.id = "timeElapsed";
+  input.name = "elapsedTime";
+  input.id = "elapsedTime";
   input.value = 0;
   form.appendChild(input);
 
@@ -197,13 +197,13 @@ a = {
   form.appendChild(input);
 }
 
-function* timeElapsed( startTime ) {
+function* elapsedTime( startTime ) {
   let elapsedTime = 0;
-  let input = document.getElementById("timeElapsed");
+  let input = document.getElementById("elapsedTime");
   while (true) {
     
     elapsedTime = new Date() - startTime;
-    input = document.getElementById("timeElapsed");
+    input = document.getElementById("elapsedTime");
     if (input) {
       input.value = elapsedTime;
     }
@@ -212,5 +212,5 @@ function* timeElapsed( startTime ) {
 
 }
 
-currentTime = timeElapsed(new Date())
+currentTime = elapsedTime(new Date())
 ```
