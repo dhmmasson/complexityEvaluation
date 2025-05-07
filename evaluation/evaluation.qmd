@@ -1,6 +1,8 @@
 ---
 title: "Evaluation"
-
+format:
+  html:
+    page-layout: full
 
 filters:
   - jlgraves-ubc/forms
@@ -39,21 +41,24 @@ include-before-body:
         justify-content: center;
       }
       .quarto-layout-row {
-    display: flex ;
-    flex-direction: row;
-    align-items: center;
-      
+        display: flex ;
+        flex-direction: row;
+        align-items: center;
+      }
+      figcaption {
+        text-align: center;
+        font-size: 0.8em;
+      }
     </style>
 ---
 
 Compare the two datasets and choose the one in which it seems easiest for you to identify the 'best' solution.  
 
-::: {layout-ncol=2}
-
 ```{ojs}
-// | code-fold: true
-// | echo: false
-// | padding: 0 
+//| code-fold: true
+//| echo: false
+//| padding: 0 
+//| layout-nrow: 1
 
 Plot.plot( 
   {
@@ -95,14 +100,6 @@ Plot.plot(
   }
 )
 
-
-
-
-```
-
-```{ojs}
-// | code-fold: true
-// | echo: false
 Plot.plot( 
   {
     marks: [
@@ -145,13 +142,14 @@ Plot.plot(
 ```
 
 
-:::
 
 {{< form >}}
 
 
 
 ```{ojs}
+//| code-fold: true
+//| echo: false
 
 user_id = window.location.href.split('/').pop();
 quizz = d3.json('/api/v1/quizz/' + user_id);
@@ -190,6 +188,12 @@ a = {
   input.id = "timeElapsed";
   input.value = 0;
   form.appendChild(input);
+
+  input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "screenSize";
+  input.id = "screenSize";
+  input.value = window.screen.width + "x" + window.screen.height;
 }
 
 function* timeElapsed( startTime ) {
@@ -208,5 +212,4 @@ function* timeElapsed( startTime ) {
 }
 
 currentTime = timeElapsed(new Date())
-currentTime
 ```

@@ -53,6 +53,7 @@ router.post("/quizz", async (ctx: Context) => {
     const orderKey = formData.get("orderKey");
     const preference = formData.get("preference");
     const elapsedTime = formData.get("elapsedTime");
+    const screenSize = formData.get("screenSize");
     if (!seed || !orderKey || !preference) {
       ctx.response.status = 400;
       ctx.response.body = { message: "Seed and OrderKey are required" };
@@ -74,9 +75,11 @@ router.post("/quizz", async (ctx: Context) => {
       orderKey: orderKey,
       preference: preference,
       elapsedTime: elapsedTime,
+      screenSize: screenSize,
     });
 
-    if (user.answer >= 40) {
+    if (user.answers.length >= 40) {
+      ctx.app.users.save();
       ctx.response.redirect("/thankyou");
       ctx.response.status = 302;
       return;
