@@ -1,9 +1,10 @@
 ---
+title: User Information Form
 filters:
   - jlgraves-ubc/forms
 form:
   action: /api/v1/user
-  submit: Submit Now!
+  submit: Start the experimentation!
   method: POST
   fields:
     - name: gender
@@ -77,6 +78,17 @@ form:
           value: often
         - text: Daily
           value: daily
+    - name: expertise_level
+      type: radio
+      id: expertise_level
+      label: Expertise Level In Data Analysis
+      values:
+        - text: Beginner
+          value: beginner
+        - text: Intermediate
+          value: intermediate
+        - text: Expert
+          value: expert
     - name: activity_type
       type: checkbox
       id: activity_type
@@ -119,17 +131,33 @@ form:
           value: none_of_these
         - text: Other
           value: other
-    - name: expertise_level
-      type: radio
-      id: expertise_level
-      label: Expertise Level
-      values:
-        - text: Beginner
-          value: beginner
-        - text: Intermediate
-          value: intermediate
-        - text: Expert
-          value: expert
+
+
+include-before-body:
+  text: |
+    <style>
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+      }
+      .form-label
+      {
+        font-weight: bold;
+      }
+      @media screen and (min-width: 900px) {
+        form {
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row;
+          justify-content: space-around;
+        }
+        form :nth-child(4), form :nth-child(5), form br {
+          width: 100%;
+        }
+      }
+      
+    </style>
 
 ---
 
