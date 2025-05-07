@@ -52,6 +52,7 @@ router.post("/quizz", async (ctx: Context) => {
     const seed = formData.get("seed");
     const orderKey = formData.get("orderKey");
     const preference = formData.get("preference");
+    const elapsedTime = formData.get("elapsedTime");
     if (!seed || !orderKey || !preference) {
       ctx.response.status = 400;
       ctx.response.body = { message: "Seed and OrderKey are required" };
@@ -65,13 +66,14 @@ router.post("/quizz", async (ctx: Context) => {
     configurationManager.savePreferences(
       userId as string,
       configuration,
-      preference as string
+      preference as string,
+      elapsedTime as string
     );
     user.answers.push({
       seed: +seed,
       orderKey: orderKey,
       preference: preference,
-      startTime: new Date().toISOString(),
+      elapsedTime: elapsedTime,
     });
 
     if (user.answer >= 40) {

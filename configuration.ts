@@ -289,14 +289,16 @@ export class ConfigurationManager {
   async savePreferences(
     userId: string,
     configuration: Configuration,
-    preference: string
+    preference: string,
+    elapsedTime: string
   ) {
     const line = `${userId},\
     ${configuration.seed},\
     ${configuration.orderKey},\
     ${prettyPrintShapeKey(configuration.shapeKeys[0])},\
     ${prettyPrintShapeKey(configuration.shapeKeys[1])},\
-    ${preference}`;
+    ${preference},\
+    ${elapsedTime}`;
 
     await Deno.writeFile(
       "preferences.csv",
