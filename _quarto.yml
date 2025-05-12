@@ -1,23 +1,23 @@
 project:
   type: website
+  resources: 
+    - images/
   preview: 
     watch-inputs: true
     browser: false
+    port: 6997
 
 
 website:
-  title: "ComplexityEvaluation"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+  title: "Complexity Evaluation"
+  search: false
+  
 
 format:
   html:
     theme: cosmo
     css: styles.css
-    toc: true
+    toc: false
 
 
 
