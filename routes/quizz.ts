@@ -23,9 +23,9 @@ router.get("/quizz/:userId", (ctx: Context) => {
     ctx.response.body = { message: "User not found" };
     return;
   }
-  const seed = user.seed;
+  let seed = user.seed;
   let orderKey = OrderKey.max_max;
-  let stage = Math.floor(user.answers.length / 8) % 4;
+  let stage = Math.floor(user.answers.length / 10) % 4;
   switch (stage) {
     case 0:
       orderKey = OrderKey.max_max;
@@ -41,6 +41,15 @@ router.get("/quizz/:userId", (ctx: Context) => {
       break;
   }
 
+  if (user.answers.length % 10 === 0) {
+    // static question
+    seed = 0.156489;
+  } else if (user.answers.length % 10 === 9) {
+    const answers = user.answers.slice(-8); // get the last 8 answers (skip the static one)
+    //pick a random answer in the last 8
+    const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+    seed = randomAnswer.seed;
+  }
   const configurations = configurationManager.nextConfiguration(
     seed * stage,
     orderKey,
