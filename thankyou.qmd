@@ -8,7 +8,7 @@ form:
   method: POST
   fields:
     - name: email
-      type: text
+      type: email
       id: email
       label: Email Address
 
