@@ -4,6 +4,7 @@ import {
   OrderKey,
   prettyPrintShapeKey,
 } from "../configuration.ts";
+import { config } from "node:process";
 
 export const router = new Router();
 const configurationManager = new ConfigurationManager();
@@ -41,20 +42,41 @@ router.get("/quizz/:userId", (ctx: Context) => {
       break;
   }
 
+  let configurations = null;
+
   if (user.answers.length % 10 === 0) {
     // static question
-    seed = 0.156489;
+    seed = configurationManager.getSeedFromShapeKeys([7, 5]);
+    configurations = configurationManager.getConfigurationFromSeed(
+      seed * stage || seed,
+      orderKey
+    );
   } else if (user.answers.length % 10 === 9) {
     const answers = user.answers.slice(-8); // get the last 8 answers (skip the static one)
     //pick a random answer in the last 8
     const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
-    seed = randomAnswer.seed;
+    configurations = configurationManager.getConfigurationFromSeed(
+      randomAnswer.seed,
+      randomAnswer.orderKey
+    );
+    const shapeKeys = configurations.shapeKeys;
+    const temp = shapeKeys[0];
+    shapeKeys[0] = shapeKeys[1];
+    shapeKeys[1] = temp;
+
+    seed = configurationManager.getSeedFromShapeKeys(shapeKeys);
+    configurations = configurationManager.getConfigurationFromSeed(
+      seed,
+      orderKey
+    );
+  } else {
+    configurations = configurationManager.nextConfiguration(
+      seed * stage,
+      orderKey,
+      []
+    );
   }
-  const configurations = configurationManager.nextConfiguration(
-    seed * stage,
-    orderKey,
-    []
-  );
+  // configurations = configurationManager.getConfigurationFromSeed(seed, orderKey);
 
   user.seed = seed;
   ctx.response.status = 200;
