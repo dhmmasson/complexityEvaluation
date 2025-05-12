@@ -390,7 +390,9 @@ export class ConfigurationManager {
       shapeIndices[0] === shapeIndices[1] ||
       configurationMatrix[shapeIndices[0]][shapeIndices[1]] > min
     );
-    return this.getConfigurationFromSeed(seed, orderKey);
+    const conf = this.getConfigurationFromSeed(seed, orderKey);
+    this.countConfiguration(conf);
+    return conf;
   }
 
   getConfigurationFromSeed(seed: number, orderKey: OrderKey): Configuration {
