@@ -111,13 +111,34 @@ router.post("/quizz", async (ctx: Context) => {
     });
     ctx.app.users.save();
     if (user.answers.length >= 40) {
-      ctx.response.redirect("/thankyou");
+      ctx.response.redirect("/thankyou.html");
       ctx.response.status = 302;
       return;
     }
 
     // Redirect to /evaluation
-    ctx.response.redirect("/evaluation/" + userId);
+    if (user.answers.length % 10 === 0) {
+      switch (user.answers.length / 10) {
+        case 1:
+          ctx.response.redirect("/min_min/" + userId);
+          break;
+        case 2:
+          ctx.response.redirect("/max_min/" + userId);
+          break;
+        case 3:
+          ctx.response.redirect("/min_max/" + userId);
+          break;
+        case 4:
+          ctx.response.redirect("/thankyou");
+          break;
+        default:
+          ctx.response.redirect("/thankyou.html");
+          break;
+      }
+    } else {
+      ctx.response.redirect("/evaluation/" + userId);
+    }
+
     ctx.response.status = 302;
   }
 
