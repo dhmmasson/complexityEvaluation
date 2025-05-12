@@ -279,6 +279,25 @@ function seedToShapeIndices(seed: number): [number, number] {
   return [Math.floor(seed * 18), Math.floor((seed * 18 * 18) % 18)];
 }
 
+function shapeIndicesToSeed(shapeIndices: [number, number]): number {
+  const [a, b] = shapeIndices;
+  const sMin = a / 18;
+  const sMax = (a + 1) / 18;
+
+  const kLower = Math.ceil((324 * sMin - b - 1) / 18);
+  const kUpper = Math.floor((324 * sMax - b) / 18);
+
+  for (let k = kLower; k <= kUpper; k++) {
+    const intervalStart = Math.max(sMin, (18 * k + b) / 324);
+    const intervalEnd = Math.min(sMax, (18 * k + b + 1) / 324);
+
+    if (intervalStart < intervalEnd) {
+      return (intervalStart + intervalEnd) / 2; // Return midpoint
+    }
+  }
+
+  throw new Error("No valid seed found");
+}
 export class ConfigurationManager {
   configurations: Map<OrderKey, number[][]>;
   preferenceCSV: string;
@@ -365,6 +384,7 @@ export class ConfigurationManager {
 
   getConfigurationFromSeed(seed: number, orderKey: OrderKey): Configuration {
     const shapeIndices = seedToShapeIndices(seed);
+    console.log("Shape indices", shapeIndices);
     const configuration: Configuration = {
       seed: seed,
       shapes: shapeIndices.map((seed) => getShapeType(seed)),
@@ -374,6 +394,11 @@ export class ConfigurationManager {
       shapeKeys: shapeIndices,
     };
     return configuration;
+  }
+
+  getSeedFromShapeKeys(shapeIndices: [number, number]): number {
+    const seed = shapeIndicesToSeed(shapeIndices);
+    return seed;
   }
 
   countConfiguration(configuration: Configuration) {
