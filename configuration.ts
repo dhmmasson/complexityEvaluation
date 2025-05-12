@@ -1,3 +1,5 @@
+import { parse, stringify } from "jsr:@std/csv";
+
 export enum Order {
   min = 0,
   max = 1,
@@ -9,7 +11,20 @@ export enum OrderKey {
   min_max = "min_max",
   min_min = "min_min",
 }
-
+function getOrder(orderKey: String): OrderKey {
+  switch (orderKey) {
+    case "max_max":
+      return OrderKey.max_max;
+    case "max_min":
+      return OrderKey.max_min;
+    case "min_max":
+      return OrderKey.min_max;
+    case "min_min":
+      return OrderKey.min_min;
+    default:
+      throw new Error("Invalid order key");
+  }
+}
 function getOrderKey(order: Order, order2: Order) {
   if (order === Order.max && order2 === Order.max) {
     return OrderKey.max_max;
@@ -189,6 +204,45 @@ export function prettyPrintShapeKey(shapeKey: ShapeKey): string {
   }
 }
 
+function getShapeKeyFromPrettyPrint(shapeKey: string): ShapeKey {
+  const [shapeType, length] = Array.from(shapeKey.trim());
+  console.log("ShapeKey", shapeKey, shapeType, length);
+  let l = 0,
+    s = 0;
+  switch (length) {
+    case "s":
+      l = 0;
+      break;
+    case "m":
+      l = 1;
+      break;
+    case "l":
+      l = 2;
+      break;
+  }
+  switch (shapeType) {
+    case "L":
+      s = 0;
+      break;
+    case "U":
+      s = 1;
+      break;
+    case "N":
+      s = 2;
+      break;
+    case "A":
+      s = 3;
+      break;
+    case "K":
+      s = 4;
+      break;
+    case "C":
+      s = 5;
+      break;
+  }
+  return getShapeKey(s, l);
+}
+
 type Configuration = {
   seed: number;
   shapes: ShapeType[];
@@ -227,12 +281,53 @@ function seedToShapeIndices(seed: number): [number, number] {
 
 export class ConfigurationManager {
   configurations: Map<OrderKey, number[][]>;
+  preferenceCSV: string;
   constructor() {
+    this.preferenceCSV = "./user_data/preferences.csv";
+
     this.configurations = new Map<OrderKey, number[][]>();
     this.configurations.set(OrderKey.max_max, createConfigurationMatrices());
     this.configurations.set(OrderKey.max_min, createConfigurationMatrices());
     this.configurations.set(OrderKey.min_max, createConfigurationMatrices());
     this.configurations.set(OrderKey.min_min, createConfigurationMatrices());
+
+    // Initialize the configuration matrices
+    // Load the preferences csv
+    // and populate the matrices
+    this.loadPreferences();
+  }
+
+  async loadPreferences() {
+    try {
+      const data = await Deno.readTextFile(this.preferenceCSV);
+      const rows = await parse(data, {
+        skipFirstRow: true,
+        trimLeadingSpace: true,
+        columns: [
+          "userId",
+          "seed",
+          "orderKey",
+          "shapeKey1",
+          "shapeKey2",
+          "preference",
+          "elapsedTime",
+        ],
+      });
+      for (const row of rows) {
+        const orderKey = getOrder(row.orderKey);
+        const shapeKey1 = getShapeKeyFromPrettyPrint(row.shapeKey1);
+        const shapeKey2 = getShapeKeyFromPrettyPrint(row.shapeKey2);
+        const configurationMatrix = this.configurations.get(orderKey);
+        if (!configurationMatrix) {
+          console.log(orderKey, shapeKey1, shapeKey2);
+          throw new Error("Invalid configuration");
+        }
+        configurationMatrix[shapeKey1][shapeKey2]++;
+      }
+    } catch (error) {
+      console.error("Error loading preferences:", error);
+    }
+    console.table(this.configurations.get(OrderKey.max_max));
   }
 
   nextConfiguration(
