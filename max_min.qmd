@@ -15,7 +15,9 @@ include-before-body:
 
 We are now entering Phase 3 of the test, with the MAX-MIN scenarios, where the goal is to maximize one criterion while minimizing the other. 
 
-In those scenarios the best answers are in the XX corner of the graph. Your task is to determine in which scenario identifying the best solution is easier.
+In those scenarios the best answers are in the bottom right corner of the graph. Your task is to determine in which scenario identifying the best solution is easier.
+
+![max min](/resources/max_min.png){width=400}
 
 Take your time to carefully analyze each situation before responding. 
 

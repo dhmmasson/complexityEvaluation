@@ -14,7 +14,9 @@ include-before-body:
 ---
 You are almost finished with the test! We are now concluding with the MIN-MAX scenarios, where the goal is to minimize one criterion while maximizing the other. 
 
-In those scenarios the best answers are in the X X corner of the graph. Your task is to determine in which scenario identifying the best solution is easier.
+In those scenarios the best answers are in the top left corner of the graph. Your task is to determine in which scenario identifying the best solution is easier.
+
+![min max](/resources/min_max.png){width=400}
 
 Take your time to carefully analyze each situation before responding. 
 

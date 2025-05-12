@@ -16,6 +16,8 @@ We will now continue the test with the MIN-MIN scenarios, where the goal is to m
 
 In those scenarios the best answers are in the bottom left corner of the graph. Your task is to determine in which scenario identifying the best solution is easier.
 
+![min min](/resources/min_min.png){width=400}
+
 Take your time to carefully analyze each situation before responding. 
 
 [Continue](evaluation/evaluation.qmd){.btn .btn-outline-primary .btn role="button"}
