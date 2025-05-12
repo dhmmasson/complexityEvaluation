@@ -10,6 +10,7 @@ form:
     - text: "Now, before the experiment, a training task starts to familiarize you with the test. "
     - text: "Please note that all problems in both the training and experimental phases are equally weighted (in other words, both criteria are the same importance). "
     - text: "---"  
+    - text: "This first training task is for you to understand how to evaluate the best solution in a specific scenario. In this scenario, the goal is to maximize both criteria (MAX-MAX). The best answers are in the top right corner of the graph. Your task is to determine what is the best solution."
     - id: training1
       text: "training1.png" 
     - name: e1
@@ -38,13 +39,13 @@ form:
         - text: J
           value: J
     - text: "---"  
-      
+    - text: "Not all scenarios are about maximizing both criteria. In the next training task, the goal is to minimize one criterion while maximizing the other (MAX-MIN). The best answers are in the bottom right corner of the graph. Your task is to determine what is the best solution."
     - id: training2
       text: "training2.png"
     - name: e2
       type: radio
       id: e2
-      label: Choose the “best” solution in the scenario above where the goal is to minimize one criterion and maximize the other (MIN-MAX). 
+      label: Choose the “best” solution in the scenario above where the goal is to minimize one criterion and maximize the other (MAX-MIN). 
       values: 
           - text: A
             value: A
@@ -66,6 +67,8 @@ form:
             value: I
           - text: J
             value: J
+    - text: "---"  
+    - text: "The Task in this experiment is not to determine the best solution, but to determine in which scenario identifying the best solution is easier. In the experiment you will be presented with two scenarios and you will have to choose the one in which it seems easiest for you to identify the 'best' solution. Both scenarios always have the objectives (Max-Max, Min-Min, Min-Max, Max-Min). From now on, your task is to compare the two datasets and choose the one in which it seems easiest for you to identify the 'best' solution. "            
     - id: training3
       text: "training3.png"
     - name: e3
@@ -79,6 +82,8 @@ form:
           value: B
         - text: I cannot choose 
           value: None
+    - text: "---"  
+    - text: "In the next training task, the goal is to minimize one criterion while maximizing the other (MAX-MIN). The best answers are in the bottom right corner of the graph. Your task is to determine in which scenario identifying the best solution is easier."          
     - id: training4
       text: "training4.png"
     - name: e4
@@ -91,7 +96,9 @@ form:
         - text: B
           value: B
         - text: I cannot choose 
-          value: None      
+          value: None    
+    - text: "---"  
+    - text: "In the next training task, the goal is to minimize one criterion while maximizing the other (MAX-MAX). The best answers are in the top right corner of the graph. Your task is to determine in which scenario identifying the best solution is easier."               
     - id: training5
       text: "training5.png"  
     - name: e5
@@ -141,6 +148,7 @@ include-before-body:
       fieldset.form-group {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        gap: 0.5em;
       }
       fieldset.form-group p {
         grid-column: span 2;
