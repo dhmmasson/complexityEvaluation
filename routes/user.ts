@@ -34,7 +34,8 @@ router.post("/user", async (ctx: Context) => {
     const user = userModels.createUser(formData);
     userModels.save();
     // Redirect to /evaluation
-    ctx.response.redirect("/evaluation/" + user.user_id);
+
+    ctx.response.redirect("/max_max/" + user.user_id);
     ctx.response.status = 302;
     return;
   } else {

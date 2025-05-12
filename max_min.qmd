@@ -1,0 +1,22 @@
+--- 
+title: "Complexity Evaluation Max Min"
+include-before-body:
+  text: |
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btn = document.querySelector(".btn");
+            const userId = window.location.href.split('/').pop();
+            if (btn) {
+                btn.href = `/evaluation/${userId}`;
+            }
+        });
+    </script>
+---
+
+We are now entering Phase 3 of the test, with the MAX-MIN scenarios, where the goal is to maximize one criterion while minimizing the other. 
+
+In those scenarios the best answers are in the XX corner of the graph. Your task is to determine in which scenario identifying the best solution is easier.
+
+Take your time to carefully analyze each situation before responding. 
+
+[Continue](evaluation/evaluation.qmd){.btn .btn-outline-primary .btn role="button"}

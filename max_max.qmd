@@ -1,0 +1,24 @@
+---
+title: "Complexity Evaluation Max Max"
+include-before-body:
+  text: |
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btn = document.querySelector(".btn");
+            const userId = window.location.href.split('/').pop();
+            if (btn) {
+                btn.href = `/evaluation/${userId}`;
+            }
+        });
+    </script>
+--- 
+
+**You have completed the training phase !**
+
+The actual test begins now, starting with the scenarios focused on maximizing both criteria (MAX-MAX). 
+In those scenarios the best answers are in the top right corner of each graph. You task is determine in which scenario identifying the best solution is easier.
+
+
+Please make sure you are ready and answer the questions as accurately and thoughtfully as possible. 
+
+[Continue](evaluation/evaluation.qmd){.btn .btn-outline-primary .btn role="button"}
