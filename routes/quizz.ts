@@ -48,7 +48,7 @@ router.get("/quizz/:userId", (ctx: Context) => {
     // static question
     seed = configurationManager.getSeedFromShapeKeys([7, 5]);
     configurations = configurationManager.getConfigurationFromSeed(
-      seed * stage || seed,
+      (seed * stage) % 1 || seed,
       orderKey
     );
   } else if (user.answers.length % 10 === 9) {
