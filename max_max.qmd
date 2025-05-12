@@ -18,7 +18,7 @@ include-before-body:
 The actual test begins now, starting with the scenarios focused on maximizing both criteria (MAX-MAX). 
 In those scenarios the best answers are in the top right corner of each graph. You task is determine in which scenario identifying the best solution is easier.
 
-![max max](/resources/max_max.png){width=400}
+![max max](/images/max_max.png){width=400}
 
 Please make sure you are ready and answer the questions as accurately and thoughtfully as possible. 
 

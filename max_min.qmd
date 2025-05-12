@@ -17,7 +17,7 @@ We are now entering Phase 3 of the test, with the MAX-MIN scenarios, where the g
 
 In those scenarios the best answers are in the bottom right corner of the graph. Your task is to determine in which scenario identifying the best solution is easier.
 
-![max min](/resources/max_min.png){width=400}
+![max min](/images/max_min.png){width=400}
 
 Take your time to carefully analyze each situation before responding. 
 
