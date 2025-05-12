@@ -31,13 +31,13 @@ router.get("/quizz/:userId", (ctx: Context) => {
       orderKey = OrderKey.max_max;
       break;
     case 1:
-      orderKey = OrderKey.max_min;
+      orderKey = OrderKey.min_min;
       break;
     case 2:
-      orderKey = OrderKey.min_max;
+      orderKey = OrderKey.max_min;
       break;
     case 3:
-      orderKey = OrderKey.min_min;
+      orderKey = OrderKey.min_max;
       break;
   }
 
