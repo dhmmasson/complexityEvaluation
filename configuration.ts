@@ -319,8 +319,13 @@ export class ConfigurationManager {
         const shapeKey2 = getShapeKeyFromPrettyPrint(row.shapeKey2);
         const configurationMatrix = this.configurations.get(orderKey);
         if (!configurationMatrix) {
-          console.log(orderKey, shapeKey1, shapeKey2);
-          throw new Error("Invalid configuration");
+          console.error(
+            "Invalid configuration",
+            orderKey,
+            shapeKey1,
+            shapeKey2
+          );
+          continue;
         }
         configurationMatrix[shapeKey1][shapeKey2]++;
       }
