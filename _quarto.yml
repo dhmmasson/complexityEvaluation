@@ -11,7 +11,9 @@ project:
 website:
   title: "Complexity Evaluation"
   search: false
-  
+  body-footer: |
+    ![Estia Logo](images/estia_logo.jpg){width=200px}\
+      
 
 format:
   html:
