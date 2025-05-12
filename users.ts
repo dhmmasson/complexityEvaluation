@@ -1,5 +1,21 @@
 import { join } from "jsr:@std/path";
 
+function uuidToFloat(uuid: string): number {
+  // Remove hyphens
+  const hex = uuid.replace(/-/g, "");
+
+  // Take the first 13 hex digits (52 bits) — safely fits into JS number
+  const hexSlice = hex.substring(0, 13);
+
+  // Convert to a number
+  const intValue = parseInt(hexSlice, 16);
+
+  // Normalize to 0..1 by dividing by the max 13-digit hex value
+  const maxHexValue = Math.pow(16, 13) - 1;
+
+  return intValue / maxHexValue;
+}
+
 const DATA_FOLDER = "./user_data";
 export enum Gender {
   male = "male",
@@ -79,7 +95,7 @@ export class User {
 
   constructor(user_id: string, formData: FormData) {
     this.user_id = user_id;
-    this.seed = Math.random();
+    this.seed = uuidToFloat(user_id);
     for (const [key, value] of formData.entries()) {
       if (key in this) {
         (this as any)[key] = value;
