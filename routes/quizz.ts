@@ -1,4 +1,6 @@
 import { Router, Context } from "jsr:@oak/oak";
+import { parse, stringify } from "jsr:@std/csv";
+
 import {
   ConfigurationManager,
   OrderKey,
@@ -181,15 +183,41 @@ router.post("/training", async (ctx: Context) => {
     }
     console.log(JSON.stringify(formData));
     const trainingData = {
-      user_id: userId,
-      e1: formData.get("e1"),
-      e2: formData.get("e2"),
-      e3: formData.get("e3"),
-      e4: formData.get("e4"),
-      e5: formData.get("e5"),
+      user_id: userId ?? "",
+      e1: formData.get("e1") ?? "",
+      e2: formData.get("e2") ?? "",
+      e3: formData.get("e3") ?? "",
+      e4: formData.get("e4") ?? "",
+      e5: formData.get("e5") ?? "",
     };
     user.training = trainingData;
     ctx.app.users.save();
+
+    // load the training csv
+    const columns = ["user_id", "e1", "e2", "e3", "e4", "e5"];
+
+    const trainingDataPath = "./user_data/training.csv";
+    let trainingDataCsv = columns.join(",");
+    try {
+      trainingDataCsv = await Deno.readTextFile(trainingDataPath);
+    } catch (e) {}
+    console.log("Training data CSV:", trainingDataCsv);
+
+    const trainingDataArray = parse(trainingDataCsv, {
+      skipFirstRow: true,
+      columns: columns,
+    });
+    // Append the new training data to the CSV file
+
+    trainingDataArray.push(trainingData);
+    const trainingDataString = stringify(trainingDataArray, {
+      columns: columns,
+    });
+    await Deno.writeFile(
+      trainingDataPath,
+      new TextEncoder().encode(trainingDataString)
+    );
+
     ctx.response.redirect("/evaluation/" + userId);
     ctx.response.status = 302;
   } else {

@@ -206,7 +206,7 @@ export function prettyPrintShapeKey(shapeKey: ShapeKey): string {
 
 function getShapeKeyFromPrettyPrint(shapeKey: string): ShapeKey {
   const [shapeType, length] = Array.from(shapeKey.trim());
-  console.log("ShapeKey", shapeKey, shapeType, length);
+
   let l = 0,
     s = 0;
   switch (length) {
@@ -350,8 +350,19 @@ export class ConfigurationManager {
       }
     } catch (error) {
       console.error("Error loading preferences:", error);
+      // If the file doesn't exist, create it
+      if (error instanceof Deno.errors.NotFound) {
+        await Deno.writeFile(
+          this.preferenceCSV,
+          new TextEncoder().encode(
+            "userId,seed,orderKey,shapeKey1,shapeKey2,preference,elapsedTime\n"
+          ),
+          {
+            create: true,
+          }
+        );
+      }
     }
-    console.table(this.configurations.get(OrderKey.max_max));
   }
 
   nextConfiguration(
@@ -417,17 +428,35 @@ export class ConfigurationManager {
     preference: string,
     elapsedTime: string
   ) {
-    const line = `${userId},\
-    ${configuration.seed},\
-    ${configuration.orderKey},\
-    ${prettyPrintShapeKey(configuration.shapeKeys[0])},\
-    ${prettyPrintShapeKey(configuration.shapeKeys[1])},\
-    ${preference},\
-    ${elapsedTime}`;
+    const line = stringify(
+      [
+        {
+          userId: userId,
+          seed: configuration.seed,
+          orderKey: configuration.orderKey,
+          shapeKey1: prettyPrintShapeKey(configuration.shapeKeys[0]),
+          shapeKey2: prettyPrintShapeKey(configuration.shapeKeys[1]),
+          preference: preference,
+          elapsedTime: elapsedTime,
+        },
+      ],
+      {
+        headers: false,
+        columns: [
+          "userId",
+          "seed",
+          "orderKey",
+          "shapeKey1",
+          "shapeKey2",
+          "preference",
+          "elapsedTime",
+        ],
+      }
+    );
 
     await Deno.writeFile(
       "./user_data/preferences.csv",
-      new TextEncoder().encode(line + "\n"),
+      new TextEncoder().encode(line),
       {
         append: true,
         create: true,
