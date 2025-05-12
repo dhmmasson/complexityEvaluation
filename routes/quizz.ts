@@ -166,3 +166,34 @@ router.post("/quizz", async (ctx: Context) => {
 
   // redirect to the quizz page
 });
+
+router.post("/training", async (ctx: Context) => {
+  const body = ctx.request.body;
+  if (body.type() === "form") {
+    const formData = await body.formData();
+    console.log("Form data:", formData);
+    const userId = formData.get("user_id");
+    const user = ctx.app.users.getUser(userId);
+    if (!user) {
+      ctx.response.status = 404;
+      ctx.response.body = { message: "User not found" };
+      return;
+    }
+    console.log(JSON.stringify(formData));
+    const trainingData = {
+      user_id: userId,
+      e1: formData.get("e1"),
+      e2: formData.get("e2"),
+      e3: formData.get("e3"),
+      e4: formData.get("e4"),
+      e5: formData.get("e5"),
+    };
+    user.training = trainingData;
+    ctx.app.users.save();
+    ctx.response.redirect("/evaluation/" + userId);
+    ctx.response.status = 302;
+  } else {
+    ctx.response.status = 400;
+    ctx.response.body = { message: "Invalid request format." };
+  }
+});

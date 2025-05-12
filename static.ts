@@ -18,27 +18,31 @@ export const staticServe = async (context, next) => {
     if (filePath === "/") {
       filePath = "/index.html";
     }
-    console.log("File path:", filePath);
     const userIdPathes = [
       "/max_max/",
       "/min_min/",
       "/max_min/",
       "/min_max/",
       "/evaluation/",
+      "/training/",
     ];
 
     // Check if the path is in the format /<file>/userId
-    if (filePath.match(/\/(max_max|min_min|max_min|min_max|evaluation)\/.*/)) {
+    if (
+      filePath.match(
+        /\/(max_max|min_min|max_min|min_max|evaluation|training)\/.*/
+      )
+    ) {
       if (filePath.match(/\/[-0-9a-f]+$/)) {
         // remove the userId from the path
         filePath = filePath.replace(
-          /\/(max_max|min_min|max_min|min_max|evaluation)\/.*/,
+          /\/(max_max|min_min|max_min|min_max|evaluation|training)\/.*/,
           "/$1.html"
         );
       } else {
         // remove the first part of the path
         filePath = filePath.replace(
-          /\/(max_max|min_min|max_min|min_max|evaluation)\/(.*)/,
+          /\/(max_max|min_min|max_min|min_max|evaluation|training)\/(.*)/,
           "/$2"
         );
       }
@@ -47,7 +51,7 @@ export const staticServe = async (context, next) => {
         filePath = "evaluation/evaluation.html";
       }
     }
-    console.log("File path after userId check:", filePath);
+
     if (!filePath.startsWith("/api/v1/")) {
       const file = await Deno.open(join("_site", filePath), {
         read: true,

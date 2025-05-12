@@ -35,7 +35,7 @@ router.post("/user", async (ctx: Context) => {
     userModels.save();
     // Redirect to /evaluation
 
-    ctx.response.redirect("/max_max/" + user.user_id);
+    ctx.response.redirect("/training/" + user.user_id);
     ctx.response.status = 302;
     return;
   } else {

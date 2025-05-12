@@ -1,0 +1,168 @@
+---
+title: "Training" 
+filters:
+  - jlgraves-ubc/forms
+form:
+  action: /api/v1/training
+  submit: Finish the training session!
+  method: POST
+  fields:
+    - text: "Now, before the experiment, a training task starts to familiarize you with the test. "
+    - text: "Please note that all problems in both the training and experimental phases are equally weighted (in other words, both criteria are the same importance). "
+    - text: "---"  
+    - id: training1
+      text: "training1.png" 
+    - name: e1
+      type: radio
+      id: e1
+      label: Choose the “best” solution in the scenario above where the goal is to maximize both criteria (MAX-MAX). 
+      values: 
+        - text: A
+          value: A
+        - text: B
+          value: B
+        - text: C
+          value: C
+        - text: D
+          value: D
+        - text: E
+          value: E
+        - text: F
+          value: F
+        - text: G
+          value: G  
+        - text: H
+          value: H
+        - text: I   
+          value: I
+        - text: J
+          value: J
+    - text: "---"  
+      
+    - id: training2
+      text: "training2.png"
+    - name: e2
+      type: radio
+      id: e2
+      label: Choose the “best” solution in the scenario above where the goal is to minimize one criterion and maximize the other (MIN-MAX). 
+      values: 
+          - text: A
+            value: A
+          - text: B
+            value: B
+          - text: C
+            value: C
+          - text: D
+            value: D
+          - text: E
+            value: E
+          - text: F
+            value: F
+          - text: G
+            value: G  
+          - text: H
+            value: H
+          - text: I   
+            value: I
+          - text: J
+            value: J
+    - id: training3
+      text: "training3.png"
+    - name: e3
+      type: radio
+      id: e3
+      label: Compare the two datasets and choose the one in which it seems easiest for you to identify the 'best' solution.  
+      values: 
+        - text: A
+          value: A
+        - text: B
+          value: B
+        - text: I cannot choose 
+          value: None
+    - id: training4
+      text: "training4.png"
+    - name: e4
+      type: radio
+      id: e4
+      label: Compare the two datasets and choose the one in which it seems easiest for you to identify the 'best' solution.  
+      values: 
+        - text: A
+          value: A
+        - text: B
+          value: B
+        - text: I cannot choose 
+          value: None      
+    - id: training5
+      text: "training5.png"  
+    - name: e5
+      type: radio
+      id: e5
+      label: Compare the two datasets and choose the one in which it seems easiest for you to identify the 'best' solution.  
+      values: 
+        - text: A
+          value: A
+        - text: B
+          value: B
+        - text: I cannot choose 
+          value: None        
+include-before-body:
+  text: |
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            const user_id = window.location.href.split('/').pop();
+            let input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "user_id";
+            input.value = user_id;
+            form.appendChild(input);
+
+            const images = document.querySelectorAll("form p");
+            let i = 0 ;
+            for (const img of images) {
+            
+                const imageUrl = img.textContent.trim();
+                if( imageUrl.endsWith(".png") === false) {
+                    continue;
+                }
+                const newImg = document.createElement("img");
+                newImg.src = "/images/" + imageUrl;
+                newImg.alt = "Training Image";
+                newImg.style.width = (i < 2) ? "400px" : "100%";
+                newImg.style.margin = "0 auto";
+                // class img-fluid figure-img
+                newImg.classList.add("img-fluid", "figure-img");
+                img.replaceWith(newImg);
+                i++;
+            }
+        });
+    </script> 
+    <style>
+      fieldset.form-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      fieldset.form-group p {
+        grid-column: span 2;
+      }
+      fieldset.form-group :last-child {
+        grid-column: span 2;
+      }
+      div.form-group {
+        display: flex;
+        justify-content: center;
+      }
+      .quarto-layout-row {
+        display: flex ;
+        flex-direction: row;
+        align-items: center;
+      }
+      figcaption {
+        text-align: center;
+        font-size: 0.8em;
+      }
+    </style>
+---
+
+{{< form >}}
+
