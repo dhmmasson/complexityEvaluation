@@ -218,7 +218,7 @@ router.post("/training", async (ctx: Context) => {
       new TextEncoder().encode(trainingDataString)
     );
 
-    ctx.response.redirect("/evaluation/" + userId);
+    ctx.response.redirect("/max_max/" + userId);
     ctx.response.status = 302;
   } else {
     ctx.response.status = 400;
