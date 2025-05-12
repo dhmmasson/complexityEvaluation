@@ -29,6 +29,7 @@ include-before-body:
       fieldset.form-group {
         display: grid;
         grid-template-columns: 1fr 1fr;
+            gap: 1em;
       }
       fieldset.form-group p {
         grid-column: span 2;
